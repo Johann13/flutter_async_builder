@@ -48,7 +48,6 @@ class SimpleStreamListBuilder<T> extends StreamBuilder<List<T>> {
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               if (error == null) {
-                print(snapshot.error);
                 return Center(
                   child: Text(
                     'an error occurred:\n' + snapshot.error.toString(),
