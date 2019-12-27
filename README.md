@@ -1,6 +1,6 @@
 # flutter_async_builder
 
-Convenience Widget Future and Stream Builder
+Convenience Widgets [Future](https://api.flutter.dev/flutter/widgets/FutureBuilder-class.html) and [Stream](https://api.flutter.dev/flutter/widgets/StreamBuilder-class.html) Builder
 
 ## Getting Started
 
