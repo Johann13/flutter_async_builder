@@ -2,6 +2,14 @@
 
 Convenience Widgets [Future](https://api.flutter.dev/flutter/widgets/FutureBuilder-class.html) and [Stream](https://api.flutter.dev/flutter/widgets/StreamBuilder-class.html) Builder
 
+## Import
+
+```
+flutter_async_builder:
+  git:
+    url: git://github.com/Johann13/flutter_async_builder
+```
+
 ## Getting Started
 
 This project is a starting point for a Dart
