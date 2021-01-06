@@ -1,6 +1,6 @@
 name: flutter_async_builder
 description: Convenience Widgets for Future and Stream Builder
-version: 0.0.1+1
+version: 0.0.2
 homepage: https://github.com/Johann13/flutter_async_builder
 
 environment:

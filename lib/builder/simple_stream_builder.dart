@@ -3,34 +3,56 @@ import 'package:flutter_async_builder/builder/builder_functions.dart';
 
 class SimpleStreamBuilder<T> extends StreamBuilder<T> {
   SimpleStreamBuilder({
+    Key key,
     @required Stream<T> stream,
     @required DataBuilder<T> builder,
-    ErrorBuilder error,
+    WidgetBuilder nullBuilder,
     WidgetBuilder loading,
+    ErrorBuilder error,
     T initialData,
   }) : super(
+          key: key,
           initialData: initialData,
           stream: stream,
           builder: (context, snapshot) {
-            if (snapshot.hasError) {
-              if (error == null) {
-                return Center(
-                  child: Text(
-                    'an error occurred ' + snapshot.error.toString(),
-                  ),
-                );
-              } else {
-                return error(context, snapshot.error);
-              }
+            Widget widget;
+            switch (snapshot.connectionState) {
+              case ConnectionState.none:
+              case ConnectionState.waiting:
+                if (loading != null) {
+                  widget = loading(context);
+                } else {
+                  widget = Container();
+                }
+                break;
+              case ConnectionState.active:
+                if (snapshot.hasError) {
+                  if (error != null) {
+                    widget = error(context, snapshot.error);
+                  } else {
+                    widget = Text('${snapshot.error}');
+                  }
+                } else {
+                  if (snapshot.hasData) {
+                    widget = builder(context, snapshot.data);
+                  } else {
+                    if (nullBuilder != null) {
+                      widget = nullBuilder(context);
+                    } else {
+                      widget = builder(context, snapshot.data);
+                    }
+                  }
+                }
+                break;
+              case ConnectionState.done:
+                if (error != null) {
+                  widget = error(context, 'ConnectionState.done');
+                } else {
+                  widget = Text('ConnectionState.done');
+                }
+                break;
             }
-            if (!snapshot.hasData) {
-              if (loading == null) {
-                return Container();
-              } else {
-                return loading(context);
-              }
-            }
-            return builder(context, snapshot.data);
+            return widget;
           },
         );
 }
@@ -39,6 +61,7 @@ class SimpleStreamListBuilder<T> extends StreamBuilder<List<T>> {
   SimpleStreamListBuilder({
     @required Stream<List<T>> stream,
     @required DataBuilder<List<T>> builder,
+    WidgetBuilder nullBuilder,
     List<T> initialData,
     ErrorBuilder error,
     WidgetBuilder loading,
@@ -46,33 +69,52 @@ class SimpleStreamListBuilder<T> extends StreamBuilder<List<T>> {
   }) : super(
           stream: stream,
           builder: (context, snapshot) {
-            if (snapshot.hasError) {
-              if (error == null) {
-                return Center(
-                  child: Text(
-                    'an error occurred:\n' + snapshot.error.toString(),
-                  ),
-                );
-              } else {
-                return error(context, snapshot.error);
-              }
-            } else if (!snapshot.hasData) {
-              if (loading == null) {
-                return Container();
-              } else {
-                return loading(context);
-              }
-            } else if (snapshot.data.isEmpty) {
-              if (empty == null) {
-                return Center(
-                  child: Text('No data found'),
-                );
-              } else {
-                return empty(context);
-              }
-            } else {
-              return builder(context, snapshot.data);
+            Widget widget;
+            switch (snapshot.connectionState) {
+              case ConnectionState.none:
+              case ConnectionState.waiting:
+                if (loading != null) {
+                  widget = loading(context);
+                } else {
+                  widget = Container();
+                }
+                break;
+              case ConnectionState.active:
+                if (snapshot.hasError) {
+                  if (error != null) {
+                    widget = error(context, snapshot.error);
+                  } else {
+                    widget = Text('${snapshot.error}');
+                  }
+                } else {
+                  if (snapshot.hasData) {
+                    if (snapshot.data.isEmpty) {
+                      if (empty != null) {
+                        widget = empty(context);
+                      } else {
+                        widget = builder(context, snapshot.data);
+                      }
+                    } else {
+                      widget = builder(context, snapshot.data);
+                    }
+                  } else {
+                    if (nullBuilder != null) {
+                      widget = nullBuilder(context);
+                    } else {
+                      widget = builder(context, snapshot.data);
+                    }
+                  }
+                }
+                break;
+              case ConnectionState.done:
+                if (error != null) {
+                  widget = error(context, 'ConnectionState.done');
+                } else {
+                  widget = Text('ConnectionState.done');
+                }
+                break;
             }
+            return widget;
           },
         );
 }
@@ -81,6 +123,7 @@ class AnimatedStreamBuilder<T> extends StreamBuilder<T> {
   AnimatedStreamBuilder({
     @required Stream<T> stream,
     @required DataBuilder<T> builder,
+    WidgetBuilder nullBuilder,
     ErrorBuilder error,
     WidgetBuilder loading,
     T initialData,
@@ -96,29 +139,46 @@ class AnimatedStreamBuilder<T> extends StreamBuilder<T> {
           initialData: initialData,
           stream: stream,
           builder: (context, snapshot) {
-            Widget child;
-            if (snapshot.hasError) {
-              if (error == null) {
-                child = Center(
-                  child: Text(
-                    'an error occurred ' + snapshot.error.toString(),
-                  ),
-                );
-              } else {
-                child = error(context, snapshot.error);
-              }
-            } else if (!snapshot.hasData) {
-              if (loading == null) {
-                child = Container();
-              } else {
-                child = loading(context);
-              }
-            } else {
-              child = builder(context, snapshot.data);
+            Widget widget;
+            switch (snapshot.connectionState) {
+              case ConnectionState.none:
+              case ConnectionState.waiting:
+                if (loading != null) {
+                  widget = loading(context);
+                } else {
+                  widget = Container();
+                }
+                break;
+              case ConnectionState.active:
+                if (snapshot.hasError) {
+                  if (error != null) {
+                    widget = error(context, snapshot.error);
+                  } else {
+                    widget = Text('${snapshot.error}');
+                  }
+                } else {
+                  if (snapshot.hasData) {
+                    widget = builder(context, snapshot.data);
+                  } else {
+                    if (nullBuilder != null) {
+                      widget = nullBuilder(context);
+                    } else {
+                      widget = builder(context, snapshot.data);
+                    }
+                  }
+                }
+                break;
+              case ConnectionState.done:
+                if (error != null) {
+                  widget = error(context, 'ConnectionState.done');
+                } else {
+                  widget = Text('ConnectionState.done');
+                }
+                break;
             }
             return AnimatedSwitcher(
               duration: duration,
-              child: child,
+              child: widget,
               reverseDuration: reverseDuration,
               switchInCurve: switchInCurve,
               switchOutCurve: switchOutCurve,
@@ -136,6 +196,7 @@ class AnimatedStreamListBuilder<T> extends StreamBuilder<List<T>> {
     ErrorBuilder error,
     WidgetBuilder loading,
     WidgetBuilder empty,
+    WidgetBuilder nullBuilder,
     List<T> initialData,
     Duration duration = const Duration(milliseconds: 300),
     Duration reverseDuration,
@@ -149,37 +210,54 @@ class AnimatedStreamListBuilder<T> extends StreamBuilder<List<T>> {
           initialData: initialData,
           stream: stream,
           builder: (context, snapshot) {
-            Widget child;
-            if (snapshot.hasError) {
-              if (error == null) {
-                child = Center(
-                  child: Text(
-                    'an error occurred ' + snapshot.error.toString(),
-                  ),
-                );
-              } else {
-                child = error(context, snapshot.error);
-              }
-            } else if (!snapshot.hasData) {
-              if (loading == null) {
-                child = Container();
-              } else {
-                child = loading(context);
-              }
-            } else if (snapshot.data.isEmpty) {
-              if (empty == null) {
-                child = Center(
-                  child: Text('No data found'),
-                );
-              } else {
-                child = empty(context);
-              }
-            } else {
-              child = builder(context, snapshot.data);
+            Widget widget;
+            switch (snapshot.connectionState) {
+              case ConnectionState.none:
+              case ConnectionState.waiting:
+                if (loading != null) {
+                  widget = loading(context);
+                } else {
+                  widget = Container();
+                }
+                break;
+              case ConnectionState.active:
+                if (snapshot.hasError) {
+                  if (error != null) {
+                    widget = error(context, snapshot.error);
+                  } else {
+                    widget = Text('${snapshot.error}');
+                  }
+                } else {
+                  if (snapshot.hasData) {
+                    if (snapshot.data.isEmpty) {
+                      if (empty != null) {
+                        widget = empty(context);
+                      } else {
+                        widget = builder(context, snapshot.data);
+                      }
+                    } else {
+                      widget = builder(context, snapshot.data);
+                    }
+                  } else {
+                    if (nullBuilder != null) {
+                      widget = nullBuilder(context);
+                    } else {
+                      widget = builder(context, snapshot.data);
+                    }
+                  }
+                }
+                break;
+              case ConnectionState.done:
+                if (error != null) {
+                  widget = error(context, 'ConnectionState.done');
+                } else {
+                  widget = Text('ConnectionState.done');
+                }
+                break;
             }
             return AnimatedSwitcher(
               duration: duration,
-              child: child,
+              child: widget,
               reverseDuration: reverseDuration,
               switchInCurve: switchInCurve,
               switchOutCurve: switchOutCurve,
