@@ -28,6 +28,7 @@ class SimpleFutureBuilder<T> extends FutureBuilder<T> {
                 }
                 break;
               case ConnectionState.active:
+              case ConnectionState.done:
                 if (snapshot.hasError) {
                   if (error != null) {
                     widget = error(context, snapshot.error);
@@ -44,13 +45,6 @@ class SimpleFutureBuilder<T> extends FutureBuilder<T> {
                       widget = builder(context, snapshot.data);
                     }
                   }
-                }
-                break;
-              case ConnectionState.done:
-                if (error != null) {
-                  widget = error(context, 'ConnectionState.done');
-                } else {
-                  widget = Text('ConnectionState.done');
                 }
                 break;
             }
@@ -82,6 +76,7 @@ class SimpleFutureListBuilder<T> extends FutureBuilder<List<T>> {
                 }
                 break;
               case ConnectionState.active:
+              case ConnectionState.done:
                 if (snapshot.hasError) {
                   if (error != null) {
                     widget = error(context, snapshot.error);
@@ -106,13 +101,6 @@ class SimpleFutureListBuilder<T> extends FutureBuilder<List<T>> {
                       widget = builder(context, snapshot.data);
                     }
                   }
-                }
-                break;
-              case ConnectionState.done:
-                if (error != null) {
-                  widget = error(context, 'ConnectionState.done');
-                } else {
-                  widget = Text('ConnectionState.done');
                 }
                 break;
             }
@@ -152,6 +140,7 @@ class AnimatedFutureBuilder<T> extends FutureBuilder<T> {
                 }
                 break;
               case ConnectionState.active:
+              case ConnectionState.done:
                 if (snapshot.hasError) {
                   if (error != null) {
                     widget = error(context, snapshot.error);
@@ -168,13 +157,6 @@ class AnimatedFutureBuilder<T> extends FutureBuilder<T> {
                       widget = builder(context, snapshot.data);
                     }
                   }
-                }
-                break;
-              case ConnectionState.done:
-                if (error != null) {
-                  widget = error(context, 'ConnectionState.done');
-                } else {
-                  widget = Text('ConnectionState.done');
                 }
                 break;
             }
@@ -223,6 +205,7 @@ class AnimatedFutureListBuilder<T> extends FutureBuilder<List<T>> {
                 }
                 break;
               case ConnectionState.active:
+              case ConnectionState.done:
                 if (snapshot.hasError) {
                   if (error != null) {
                     widget = error(context, snapshot.error);
@@ -247,13 +230,6 @@ class AnimatedFutureListBuilder<T> extends FutureBuilder<List<T>> {
                       widget = builder(context, snapshot.data);
                     }
                   }
-                }
-                break;
-              case ConnectionState.done:
-                if (error != null) {
-                  widget = error(context, 'ConnectionState.done');
-                } else {
-                  widget = Text('ConnectionState.done');
                 }
                 break;
             }
