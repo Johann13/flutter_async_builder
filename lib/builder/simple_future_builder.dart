@@ -5,19 +5,19 @@ import 'package:flutter_async_builder/builder/builder_functions.dart';
 
 class SimpleFutureBuilder<T> extends FutureBuilder<T> {
   SimpleFutureBuilder({
-    Key key,
-    @required Future<T> future,
-    @required DataBuilder<T> builder,
-    WidgetBuilder nullBuilder,
-    WidgetBuilder loading,
-    ErrorBuilder error,
-    T initialData,
+    Key? key,
+    required Future<T> future,
+    required DataBuilder<T?> builder,
+    WidgetBuilder? nullBuilder,
+    WidgetBuilder? loading,
+    ErrorBuilder? error,
+    T? initialData,
   }) : super(
           key: key,
           initialData: initialData,
           future: future,
           builder: (context, snapshot) {
-            Widget widget;
+            late Widget widget;
             switch (snapshot.connectionState) {
               case ConnectionState.none:
               case ConnectionState.waiting:
@@ -55,17 +55,17 @@ class SimpleFutureBuilder<T> extends FutureBuilder<T> {
 
 class SimpleFutureListBuilder<T> extends FutureBuilder<List<T>> {
   SimpleFutureListBuilder({
-    @required Future<List<T>> future,
-    @required DataBuilder<List<T>> builder,
-    WidgetBuilder nullBuilder,
-    List<T> initialData,
-    ErrorBuilder error,
-    WidgetBuilder loading,
-    WidgetBuilder empty,
+    required Future<List<T>> future,
+    required DataBuilder<List<T>?> builder,
+    WidgetBuilder? nullBuilder,
+    List<T>? initialData,
+    ErrorBuilder? error,
+    WidgetBuilder? loading,
+    WidgetBuilder? empty,
   }) : super(
           future: future,
           builder: (context, snapshot) {
-            Widget widget;
+            late Widget widget;
             switch (snapshot.connectionState) {
               case ConnectionState.none:
               case ConnectionState.waiting:
@@ -85,7 +85,7 @@ class SimpleFutureListBuilder<T> extends FutureBuilder<List<T>> {
                   }
                 } else {
                   if (snapshot.hasData) {
-                    if (snapshot.data.isEmpty) {
+                    if (snapshot.data!.isEmpty) {
                       if (empty != null) {
                         widget = empty(context);
                       } else {
@@ -111,14 +111,14 @@ class SimpleFutureListBuilder<T> extends FutureBuilder<List<T>> {
 
 class AnimatedFutureBuilder<T> extends FutureBuilder<T> {
   AnimatedFutureBuilder({
-    @required Future<T> future,
-    @required DataBuilder<T> builder,
-    WidgetBuilder nullBuilder,
-    ErrorBuilder error,
-    WidgetBuilder loading,
-    T initialData,
+    required Future<T> future,
+    required DataBuilder<T?> builder,
+    WidgetBuilder? nullBuilder,
+    ErrorBuilder? error,
+    WidgetBuilder? loading,
+    T? initialData,
     Duration duration = const Duration(milliseconds: 300),
-    Duration reverseDuration,
+    Duration? reverseDuration,
     Curve switchInCurve = Curves.linear,
     Curve switchOutCurve = Curves.linear,
     AnimatedSwitcherTransitionBuilder transitionBuilder =
@@ -129,7 +129,7 @@ class AnimatedFutureBuilder<T> extends FutureBuilder<T> {
           initialData: initialData,
           future: future,
           builder: (context, snapshot) {
-            Widget widget;
+            Widget? widget;
             switch (snapshot.connectionState) {
               case ConnectionState.none:
               case ConnectionState.waiting:
@@ -175,15 +175,15 @@ class AnimatedFutureBuilder<T> extends FutureBuilder<T> {
 
 class AnimatedFutureListBuilder<T> extends FutureBuilder<List<T>> {
   AnimatedFutureListBuilder({
-    @required Future<List<T>> future,
-    @required DataBuilder<List<T>> builder,
-    ErrorBuilder error,
-    WidgetBuilder loading,
-    WidgetBuilder empty,
-    WidgetBuilder nullBuilder,
-    List<T> initialData,
+    required Future<List<T>> future,
+    required DataBuilder<List<T>?> builder,
+    ErrorBuilder? error,
+    WidgetBuilder? loading,
+    WidgetBuilder? empty,
+    WidgetBuilder? nullBuilder,
+    List<T>? initialData,
     Duration duration = const Duration(milliseconds: 300),
-    Duration reverseDuration,
+    Duration? reverseDuration,
     Curve switchInCurve = Curves.linear,
     Curve switchOutCurve = Curves.linear,
     AnimatedSwitcherTransitionBuilder transitionBuilder =
@@ -194,7 +194,7 @@ class AnimatedFutureListBuilder<T> extends FutureBuilder<List<T>> {
           initialData: initialData,
           future: future,
           builder: (context, snapshot) {
-            Widget widget;
+            Widget? widget;
             switch (snapshot.connectionState) {
               case ConnectionState.none:
               case ConnectionState.waiting:
@@ -214,7 +214,7 @@ class AnimatedFutureListBuilder<T> extends FutureBuilder<List<T>> {
                   }
                 } else {
                   if (snapshot.hasData) {
-                    if (snapshot.data.isEmpty) {
+                    if (snapshot.data!.isEmpty) {
                       if (empty != null) {
                         widget = empty(context);
                       } else {

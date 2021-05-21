@@ -3,19 +3,19 @@ import 'package:flutter_async_builder/builder/builder_functions.dart';
 
 class SimpleStreamBuilder<T> extends StreamBuilder<T> {
   SimpleStreamBuilder({
-    Key key,
-    @required Stream<T> stream,
-    @required DataBuilder<T> builder,
-    WidgetBuilder nullBuilder,
-    WidgetBuilder loading,
-    ErrorBuilder error,
-    T initialData,
+    Key? key,
+    required Stream<T> stream,
+    required DataBuilder<T?> builder,
+    WidgetBuilder? nullBuilder,
+    WidgetBuilder? loading,
+    ErrorBuilder? error,
+    T? initialData,
   }) : super(
           key: key,
           initialData: initialData,
           stream: stream,
           builder: (context, snapshot) {
-            Widget widget;
+            late Widget widget;
             switch (snapshot.connectionState) {
               case ConnectionState.none:
               case ConnectionState.waiting:
@@ -59,17 +59,17 @@ class SimpleStreamBuilder<T> extends StreamBuilder<T> {
 
 class SimpleStreamListBuilder<T> extends StreamBuilder<List<T>> {
   SimpleStreamListBuilder({
-    @required Stream<List<T>> stream,
-    @required DataBuilder<List<T>> builder,
-    WidgetBuilder nullBuilder,
-    List<T> initialData,
-    ErrorBuilder error,
-    WidgetBuilder loading,
-    WidgetBuilder empty,
+    required Stream<List<T>> stream,
+    required DataBuilder<List<T>?> builder,
+    WidgetBuilder? nullBuilder,
+    List<T>? initialData,
+    ErrorBuilder? error,
+    WidgetBuilder? loading,
+    WidgetBuilder? empty,
   }) : super(
           stream: stream,
           builder: (context, snapshot) {
-            Widget widget;
+            late Widget widget;
             switch (snapshot.connectionState) {
               case ConnectionState.none:
               case ConnectionState.waiting:
@@ -88,7 +88,7 @@ class SimpleStreamListBuilder<T> extends StreamBuilder<List<T>> {
                   }
                 } else {
                   if (snapshot.hasData) {
-                    if (snapshot.data.isEmpty) {
+                    if (snapshot.data!.isEmpty) {
                       if (empty != null) {
                         widget = empty(context);
                       } else {
@@ -121,14 +121,14 @@ class SimpleStreamListBuilder<T> extends StreamBuilder<List<T>> {
 
 class AnimatedStreamBuilder<T> extends StreamBuilder<T> {
   AnimatedStreamBuilder({
-    @required Stream<T> stream,
-    @required DataBuilder<T> builder,
-    WidgetBuilder nullBuilder,
-    ErrorBuilder error,
-    WidgetBuilder loading,
-    T initialData,
+    required Stream<T> stream,
+    required DataBuilder<T?> builder,
+    WidgetBuilder? nullBuilder,
+    ErrorBuilder? error,
+    WidgetBuilder? loading,
+    T? initialData,
     Duration duration = const Duration(milliseconds: 300),
-    Duration reverseDuration,
+    Duration? reverseDuration,
     Curve switchInCurve = Curves.linear,
     Curve switchOutCurve = Curves.linear,
     AnimatedSwitcherTransitionBuilder transitionBuilder =
@@ -139,7 +139,7 @@ class AnimatedStreamBuilder<T> extends StreamBuilder<T> {
           initialData: initialData,
           stream: stream,
           builder: (context, snapshot) {
-            Widget widget;
+            Widget? widget;
             switch (snapshot.connectionState) {
               case ConnectionState.none:
               case ConnectionState.waiting:
@@ -191,15 +191,15 @@ class AnimatedStreamBuilder<T> extends StreamBuilder<T> {
 
 class AnimatedStreamListBuilder<T> extends StreamBuilder<List<T>> {
   AnimatedStreamListBuilder({
-    @required Stream<List<T>> stream,
-    @required DataBuilder<List<T>> builder,
-    ErrorBuilder error,
-    WidgetBuilder loading,
-    WidgetBuilder empty,
-    WidgetBuilder nullBuilder,
-    List<T> initialData,
+    required Stream<List<T>> stream,
+    required DataBuilder<List<T>?> builder,
+    ErrorBuilder? error,
+    WidgetBuilder? loading,
+    WidgetBuilder? empty,
+    WidgetBuilder? nullBuilder,
+    List<T>? initialData,
     Duration duration = const Duration(milliseconds: 300),
-    Duration reverseDuration,
+    Duration? reverseDuration,
     Curve switchInCurve = Curves.linear,
     Curve switchOutCurve = Curves.linear,
     AnimatedSwitcherTransitionBuilder transitionBuilder =
@@ -210,7 +210,7 @@ class AnimatedStreamListBuilder<T> extends StreamBuilder<List<T>> {
           initialData: initialData,
           stream: stream,
           builder: (context, snapshot) {
-            Widget widget;
+            Widget? widget;
             switch (snapshot.connectionState) {
               case ConnectionState.none:
               case ConnectionState.waiting:
@@ -229,7 +229,7 @@ class AnimatedStreamListBuilder<T> extends StreamBuilder<List<T>> {
                   }
                 } else {
                   if (snapshot.hasData) {
-                    if (snapshot.data.isEmpty) {
+                    if (snapshot.data!.isEmpty) {
                       if (empty != null) {
                         widget = empty(context);
                       } else {
